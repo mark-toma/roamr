@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot name="roamr_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="roamr_legwheel.xacro.xml"/> 
+
+  <!-- SI Units -->
+
+  <!-- TODO: Move geometry to YAML file -->
+  <!-- xacro:property name="yaml_file" value="roamr_geometry.yaml" / -->
+  <!-- xacro:property name="geom" value="${load_yaml(yaml_file)}"/ -->
+
+  <!-- Start with the chassis as base_link -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://roamr_description/meshes/roamr_chassis.dae" />
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Add the leg-wheels -->
+  <xacro:roamr_legwheel parent="base_link" suffix="right">
+    <origin rpy="0.0 0.0 ${-60.0*3.14159/180.0}" xyz="0.058 -0.100 0.0" />
+  </xacro:roamr_legwheel>
+
+  <xacro:roamr_legwheel parent="base_link" suffix="left">
+    <origin rpy="0.0 0.0 ${60.0*3.14159/180.0}" xyz="0.058 0.100 0.0" />
+  </xacro:roamr_legwheel>
+  
+  <xacro:roamr_legwheel parent="base_link" suffix="back">
+    <origin rpy="0.0 0.0 ${3.14159}" xyz="-0.115 0.0 0.0" />
+  </xacro:roamr_legwheel>
+  
+  <!-- TODO: Add base_footprint for navigation if required -->
+  <!-- TODO: Add dynamic properties for dynamic simulation if required -->
+
+</robot> 
+  
+  
+  
+  
+
+  
+  
+  
+
+  

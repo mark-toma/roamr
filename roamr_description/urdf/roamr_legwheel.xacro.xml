@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <xacro:macro name="roamr_legwheel" params="parent suffix *placement">
+
+        <!-- Links: leg, caster, wheel *_link_suffix -->
+
+        <link name="leg_link_${suffix}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://roamr_description/meshes/roamr_leg.dae" />
+                </geometry>
+            </visual>
+        </link>
+
+        <link name="caster_link_${suffix}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://roamr_description/meshes/roamr_caster.dae" />
+                </geometry>
+            </visual>
+        </link>
+
+        <link name="wheel_link_${suffix}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://roamr_description/meshes/roamr_wheel.dae" />
+                </geometry>
+            </visual>
+        </link>
+
+        <!-- Joints: leg, caster, wheel *_suffix_joint -->
+
+        <joint name="leg_${suffix}_joint" type="continuous"> <!-- FIXME: Demote to revolute when ready to add limits -->
+            <parent link="${parent}" />
+            <child link="leg_link_${suffix}" />
+            <axis xyz="0 0 1" />
+            <xacro:insert_block name="placement" />
+        </joint>
+
+        <joint name="caster_${suffix}_joint" type="continuous">
+            <parent link="leg_link_${suffix}" />
+            <child link="caster_link_${suffix}" />
+            <axis xyz="0 0 1" />
+            <origin rpy="0 0 0" xyz="0.200 0 0" />
+        </joint>
+
+        <joint name="wheel_${suffix}_joint" type="continuous">
+            <parent link="caster_link_${suffix}" />
+            <child link="wheel_link_${suffix}" />
+            <axis xyz="0 1 0" />
+            <origin rpy="0 0 0" xyz="0 0 -0.050" />
+        </joint>
+
+    </xacro:macro>
+</robot>
