@@ -5,9 +5,8 @@
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="mark@mark-toma.com">marktoma</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache 2.0</license>
 
-  <!-- TODO: Add runtime depends for things in launch -->
   <exec_depend>xacro</exec_depend>
 
   <!-- test_depend>ament_copyright</test_depend -->
