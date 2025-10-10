@@ -16,4 +16,19 @@
 
 # Use this script to generate the URDF from XACRO and check its validity.
 
+cd "$(dirname "$0")"
+echo "Generating URDF from XACRO..."
 ros2 run xacro xacro roamr_robot.urdf.xacro > roamr_robot.urdf
+
+echo ""
+echo "Checking URDF validity..."
+check_urdf roamr_robot.urdf > roamr_robot.urdf.check
+res=$?
+
+echo ""
+echo "See roamr_robot.urdf[.check] for details"
+if [[ 0 == $res ]]; then
+    echo "SUCCESS: URDF is valid"
+else
+    echo "FAILURE: URDF is not valid"
+fi
