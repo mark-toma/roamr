@@ -4,10 +4,8 @@
   <xacro:include filename="roamr_legwheel.xacro.xml"/> 
 
   <!-- SI Units -->
-
-  <!-- TODO: Move geometry to YAML file -->
-  <!-- xacro:property name="yaml_file" value="roamr_geometry.yaml" / -->
-  <!-- xacro:property name="geom" value="${load_yaml(yaml_file)}"/ -->
+  <xacro:arg name="geom_file" default="$(find roamr_description)/config/roamr_geometry.yaml" />
+  <xacro:property name="geom" value="${xacro.load_yaml('$(arg geom_file)')}" />
 
   <!-- Start with the chassis as base_link -->
   <link name="base_link">
@@ -19,16 +17,17 @@
   </link>
 
   <!-- Add the leg-wheels -->
+  <!-- TODO: Add parameters for remaining legwheel geometry -->
   <xacro:roamr_legwheel parent="base_link" suffix="right">
-    <origin rpy="0.0 0.0 ${-60.0*3.14159/180.0}" xyz="0.058 -0.100 0.0" />
+    <origin rpy="0.0 0.0 ${-pi/3.0}" xyz="${geom['legwheel_xyz']['right']}" />
   </xacro:roamr_legwheel>
 
   <xacro:roamr_legwheel parent="base_link" suffix="left">
-    <origin rpy="0.0 0.0 ${60.0*3.14159/180.0}" xyz="0.058 0.100 0.0" />
+    <origin rpy="0.0 0.0 ${pi/3.0}" xyz="${geom['legwheel_xyz']['left']}" />
   </xacro:roamr_legwheel>
   
   <xacro:roamr_legwheel parent="base_link" suffix="back">
-    <origin rpy="0.0 0.0 ${3.14159}" xyz="-0.115 0.0 0.0" />
+    <origin rpy="0.0 0.0 ${pi}" xyz="${geom['legwheel_xyz']['back']}" />
   </xacro:roamr_legwheel>
   
   <!-- TODO: Add base_footprint for navigation if required -->
