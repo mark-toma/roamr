@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     
-    <xacro:macro name="roamr_legwheel" params="parent suffix *placement">
+    <xacro:macro name="roamr_legwheel" params="zc rw ll parent prefix suffix *placement">
 
         <!-- Links: leg, caster, wheel *_link_suffix -->
 
-        <link name="leg_link_${suffix}">
+        <link name="${prefix}_leg_link_${suffix}">
             <visual>
                 <geometry>
                     <mesh filename="package://roamr_description/meshes/roamr_leg.dae" />
@@ -13,7 +13,7 @@
             </visual>
         </link>
 
-        <link name="caster_link_${suffix}">
+        <link name="${prefix}_caster_link_${suffix}">
             <visual>
                 <geometry>
                     <mesh filename="package://roamr_description/meshes/roamr_caster.dae" />
@@ -21,35 +21,44 @@
             </visual>
         </link>
 
-        <link name="wheel_link_${suffix}">
+        <link name="${prefix}_wheel_link_${suffix}">
             <visual>
                 <geometry>
                     <mesh filename="package://roamr_description/meshes/roamr_wheel.dae" />
                 </geometry>
             </visual>
         </link>
+        
+        <link name="${prefix}_wheel_footprint_${suffix}" />
 
         <!-- Joints: leg, caster, wheel *_suffix_joint -->
 
-        <joint name="leg_${suffix}_joint" type="continuous"> <!-- FIXME: Demote to revolute when ready to add limits -->
+        <joint name="${prefix}_leg_${suffix}_joint" type="continuous"> <!-- FIXME: Demote to revolute when ready to add limits -->
             <parent link="${parent}" />
-            <child link="leg_link_${suffix}" />
+            <child link="${prefix}_leg_link_${suffix}" />
             <axis xyz="0 0 1" />
             <xacro:insert_block name="placement" />
         </joint>
 
-        <joint name="caster_${suffix}_joint" type="continuous">
-            <parent link="leg_link_${suffix}" />
-            <child link="caster_link_${suffix}" />
+        <joint name="${prefix}_caster_${suffix}_joint" type="continuous">
+            <parent link="${prefix}_leg_link_${suffix}" />
+            <child link="${prefix}_caster_link_${suffix}" />
             <axis xyz="0 0 1" />
-            <origin rpy="0 0 0" xyz="0.200 0 0" />
+            <origin rpy="0 0 0" xyz="${ll} 0 0" />
         </joint>
 
-        <joint name="wheel_${suffix}_joint" type="continuous">
-            <parent link="caster_link_${suffix}" />
-            <child link="wheel_link_${suffix}" />
+        <joint name="${prefix}_wheel_${suffix}_joint" type="continuous">
+            <parent link="${prefix}_caster_link_${suffix}" />
+            <child link="${prefix}_wheel_link_${suffix}" />
             <axis xyz="0 1 0" />
-            <origin rpy="0 0 0" xyz="0 0 -0.050" />
+            <origin rpy="0 0 0" xyz="0 0 -${zc-rw}" />
+        </joint>
+
+        <joint name="${prefix}_wheel_footprint_${suffix}_joint" type="fixed">
+            <parent link="${prefix}_caster_link_${suffix}" />
+            <child link="${prefix}_wheel_footprint_${suffix}" />
+            <axis xyz="0 1 0" />
+            <origin rpy="0 0 0" xyz="0 0 -${zc}" />
         </joint>
 
     </xacro:macro>

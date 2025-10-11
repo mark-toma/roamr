@@ -17,17 +17,18 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration, Command
 from launch.conditions import IfCondition
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    use_rviz = LaunchConfiguration('use_rviz', default='true')
-    use_joint_state_publisher_gui = LaunchConfiguration('use_joint_state_publisher_gui', default='true')
+    ns = LaunchConfiguration('roamr_ns')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    use_rviz = LaunchConfiguration('use_rviz')
+    use_joint_state_publisher_gui = LaunchConfiguration('use_joint_state_publisher_gui')
 
     # TODO: Add parameterization for robot configuration
     urdf_file = os.path.join(
@@ -75,6 +76,10 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument(
+            'roamr_ns',
+            default_value='roamr',
+            description='Namespace for roamr robot'),
+        DeclareLaunchArgument(
             'use_sim_time',
             default_value='false',
             description='Use simulation (Gazebo) clock if true'),
@@ -86,7 +91,12 @@ def generate_launch_description():
             'use_joint_state_publisher_gui',
             default_value='true',
             description='Use joint state_publisher GUI if true'),
-        robot_state_publisher_node,
-        joint_state_publisher_gui_node,
-        rviz_node,
+        GroupAction(
+            actions=[
+                PushRosNamespace(ns),
+                robot_state_publisher_node,
+                joint_state_publisher_gui_node,
+                rviz_node,
+            ]
+        )
     ])

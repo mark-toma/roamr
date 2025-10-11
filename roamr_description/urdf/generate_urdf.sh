@@ -18,7 +18,8 @@
 
 cd "$(dirname "$0")"
 echo "Generating URDF from XACRO..."
-ros2 run xacro xacro roamr_robot.urdf.xacro > roamr_robot.urdf
+ros2 run xacro xacro ./roamr_robot.urdf.xacro \
+  geom_file:="$(pwd)/../config/roamr_geometry.yaml" > roamr_robot.urdf
 
 echo ""
 echo "Checking URDF validity..."
