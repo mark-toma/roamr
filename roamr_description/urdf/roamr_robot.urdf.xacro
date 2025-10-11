@@ -4,7 +4,6 @@
   <xacro:include filename="roamr_legwheel.xacro.xml"/> 
 
   <!-- SI Units -->
-
   <xacro:arg name="namespace" default="roamr" />
   <xacro:arg name="geom_file" default="$(find roamr_description)/config/roamr_geometry.yaml" />
   <xacro:property name="ns" value="'$(arg namespace)'" />
@@ -12,7 +11,7 @@
 
   <xacro:property name="zc" value="${geom['chassis_elevation']}" />
   <xacro:property name="rw" value="${geom['wheel_radius']}" />
-  <xacro:property name="ll" value="${geom['leg_length']}" /> <!-- DO NOT use ll in expressions! -->
+  <xacro:property name="ll" value="${geom['leg_length']}" />
 
   <!-- Start with the chassis as base_link -->
   <link name="${ns}_base_link">
@@ -24,7 +23,6 @@
   </link>
 
   <!-- Add the leg-wheels -->
-  <!-- TODO: Add parameters for remaining legwheel geometry -->
   <xacro:roamr_legwheel zc="${zc}" rw="${rw}" ll="${ll}" parent="${ns}_base_link" prefix="${ns}" suffix="right">
     <origin rpy="0.0 0.0 ${-pi/3.0}" xyz="${geom['legwheel_xyz']['right']}" />
   </xacro:roamr_legwheel>
@@ -37,7 +35,6 @@
     <origin rpy="0.0 0.0 ${pi}" xyz="${geom['legwheel_xyz']['back']}" />
   </xacro:roamr_legwheel>
   
-  <!-- TODO: Add base_footprint for navigation if required -->
   <link name="${ns}_base_footprint" />
   <joint name="${ns}_base_footprint_joint" type="fixed">
     <parent link="${ns}_base_link" />

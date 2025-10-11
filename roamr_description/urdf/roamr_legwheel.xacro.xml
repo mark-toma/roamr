@@ -2,9 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     
     <xacro:macro name="roamr_legwheel" params="zc rw ll parent prefix suffix *placement">
-
         <!-- Links: leg, caster, wheel *_link_suffix -->
-
         <link name="${prefix}_leg_link_${suffix}">
             <visual>
                 <geometry>
@@ -12,7 +10,6 @@
                 </geometry>
             </visual>
         </link>
-
         <link name="${prefix}_caster_link_${suffix}">
             <visual>
                 <geometry>
@@ -20,7 +17,6 @@
                 </geometry>
             </visual>
         </link>
-
         <link name="${prefix}_wheel_link_${suffix}">
             <visual>
                 <geometry>
@@ -28,32 +24,29 @@
                 </geometry>
             </visual>
         </link>
-        
+
         <link name="${prefix}_wheel_footprint_${suffix}" />
 
         <!-- Joints: leg, caster, wheel *_suffix_joint -->
-
-        <joint name="${prefix}_leg_${suffix}_joint" type="continuous"> <!-- FIXME: Demote to revolute when ready to add limits -->
+        <!-- FIXME: Demote to revolute when ready to add limits -->
+        <joint name="${prefix}_leg_${suffix}_joint" type="continuous">
             <parent link="${parent}" />
             <child link="${prefix}_leg_link_${suffix}" />
             <axis xyz="0 0 1" />
             <xacro:insert_block name="placement" />
         </joint>
-
         <joint name="${prefix}_caster_${suffix}_joint" type="continuous">
             <parent link="${prefix}_leg_link_${suffix}" />
             <child link="${prefix}_caster_link_${suffix}" />
             <axis xyz="0 0 1" />
             <origin rpy="0 0 0" xyz="${ll} 0 0" />
         </joint>
-
         <joint name="${prefix}_wheel_${suffix}_joint" type="continuous">
             <parent link="${prefix}_caster_link_${suffix}" />
             <child link="${prefix}_wheel_link_${suffix}" />
             <axis xyz="0 1 0" />
             <origin rpy="0 0 0" xyz="0 0 -${zc-rw}" />
         </joint>
-
         <joint name="${prefix}_wheel_footprint_${suffix}_joint" type="fixed">
             <parent link="${prefix}_caster_link_${suffix}" />
             <child link="${prefix}_wheel_footprint_${suffix}" />
