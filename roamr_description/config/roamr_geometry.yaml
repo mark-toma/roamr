@@ -1,3 +1,7 @@
+# SI units (precision):
+# - Length: meters (1 mm)
+# - Angle: radians (0.002 rad, approx 0.1 deg)
+
 chassis_elevation: 0.085
 wheel_radius: 0.035
 leg_length: 0.200
