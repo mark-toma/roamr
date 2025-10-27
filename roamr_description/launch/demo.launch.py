@@ -30,7 +30,6 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration('use_rviz')
     use_joint_state_publisher_gui = LaunchConfiguration('use_joint_state_publisher_gui')
 
-    # TODO: Add parameterization for robot configuration
     urdf_file = os.path.join(
         get_package_share_directory('roamr_description'),
         'urdf',
