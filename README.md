@@ -165,4 +165,5 @@ ros2 run tf2_tools view_frames # Create diagram of published transform frames
 
 1. Q. Fu, “Kinematics of Articulated Wheeled Robots: Exploiting Reconfigurability and Redundancy,”
 M.S. thesis, Dept. of Mech. Eng., Univ. at Buffalo \(SUNY\), Buffalo, New York, United States, 2008.
-\[Online\]. Available: ***TBD***
+\[Online\]. Available: <https://www.academia.edu/2835721/Kinematics_of_Articulated_Wheeled_Robots_Exploiting_Reconfigurability_and_Redundancy>
+_Note: PDF full text can be downloaded with a free account_
