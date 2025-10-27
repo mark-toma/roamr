@@ -19,7 +19,7 @@ original ROAMeR and its creators.
 The following content is planned for development in the and in other repos:
 
 * ROS packages
-  * WIP: `roamr_description`
+  * `roamr_description`
   * TODO: `roamr_teleop`
   * TODO: `roamr_driver`
   * TODO: `roamr_sim`
