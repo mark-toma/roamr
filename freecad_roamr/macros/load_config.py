@@ -8,6 +8,8 @@ import FreeCAD
 import yaml
 
 
+DEFAULT_UNITS = 'm'
+
 args = { arg: value for arg, value in 
          (arg.split('=') for arg in sys.argv[1:] if '=' in arg) }
 
@@ -25,24 +27,27 @@ FreeCAD.Console.PrintMessage("\nLoaded configuration:\n")
 for k, v in config.items():
     FreeCAD.Console.PrintMessage(f"{k}: {v}\n")
 
-# Load the FreeCAD document
-# Validate FreeCAD document contents (e.g. Spreadsheet exists)
+FreeCAD.openDocument(args['freecad_file'])
+document_name = os.path.splitext(os.path.basename(args['freecad_file']))[0]
+doc = App.getDocument(document_name)
+sheet = doc.getObjectsByLabel('Spreadsheet')[0] # Get the first one
 
-# For each YAML config item
-# - Validate value, if not numeric
-#   - Error out
-# - Calculate full context key
-#   - This is concatenation of all keys, joined by dunderbars
-#   - e.g. config['key1']['key2'] -> key1__key2
-# - Search for existing key in Spreadsheet
-# - If key exists, compare values
-#   - If values differ
-#     - Notify
-#     - Update value
-# - If key does not exist, create entry
-#   - Notify creation
-#   - Add key and value
-#   - Add alias for use in FreeCAD expressions
-#
-# Note: This does not maintain deprecated keys.
+# TODO: Nuke existing contents
 
+sheet.set('A1', 'Key')
+sheet.set('B1', 'Value')
+for idx, (k, v) in enumerate(config.items()):
+  units = DEFAULT_UNITS
+  sheet.set(f"A{idx+2}", f"\'{k}")
+  sheet.set(f"B{idx+2}", f"{v} {units}")
+  sheet.setAlias(f"B{idx+2}", f"{k}")
+  FreeCAD.Console.PrintMessage(
+    f"Row {idx+2} updated with {k} = {v} [{units}]\n"
+  )
+  readback_value = sheet.getContents(f"B{idx+2}")
+  FreeCAD.Console.PrintMessage(
+    f"  Readback value: {readback_value}\n"
+  )
+  
+sheet.recompute()
+doc.save()
