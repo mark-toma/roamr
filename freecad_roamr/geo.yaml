@@ -5,3 +5,4 @@
 caster_height: 0.050
 wheel_radius: 0.035
 leg_length: 0.200
+chassis_side_length: 0.200
