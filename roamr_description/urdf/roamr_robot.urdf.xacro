@@ -9,7 +9,7 @@
   <xacro:property name="ns" value="'$(arg namespace)'" />
   <xacro:property name="geom" value="${xacro.load_yaml('$(arg geom_file)')}" />
 
-  <xacro:property name="zc" value="${geom['chassis_elevation']}" />
+  <xacro:property name="zc" value="${geom['wheel_radius'] + geom['caster_height']}" />
   <xacro:property name="rw" value="${geom['wheel_radius']}" />
   <xacro:property name="ll" value="${geom['leg_length']}" />
 
@@ -22,17 +22,25 @@
     </visual>
   </link>
 
+  <xacro:macro name="calculate_legwheel_origin" params="angle">
+    <!-- Here, radius is the distance from center of chassis to vertex -->
+    <xacro:property name="radius" value="${geom['chassis_side_length'] / sqrt(3)}" />
+    <xacro:property name="x" value="${radius * cos(angle)}" />
+    <xacro:property name="y" value="${radius * sin(angle)}" />
+    <origin rpy="0.0 0.0 ${angle}" xyz="${x} ${y} 0.0" />
+  </xacro:macro>
+
   <!-- Add the leg-wheels -->
   <xacro:roamr_legwheel zc="${zc}" rw="${rw}" ll="${ll}" parent="${ns}_base_link" prefix="${ns}" suffix="right">
-    <origin rpy="0.0 0.0 ${-pi/3.0}" xyz="${geom['legwheel_xyz']['right']}" />
+    <xacro:calculate_legwheel_origin angle="${-pi/3.0}" />
   </xacro:roamr_legwheel>
 
   <xacro:roamr_legwheel zc="${zc}" rw="${rw}" ll="${ll}" parent="${ns}_base_link" prefix="${ns}" suffix="left">
-    <origin rpy="0.0 0.0 ${pi/3.0}" xyz="${geom['legwheel_xyz']['left']}" />
+    <xacro:calculate_legwheel_origin angle="${pi/3.0}" />
   </xacro:roamr_legwheel>
   
   <xacro:roamr_legwheel zc="${zc}" rw="${rw}" ll="${ll}" parent="${ns}_base_link" prefix="${ns}" suffix="back">
-    <origin rpy="0.0 0.0 ${pi}" xyz="${geom['legwheel_xyz']['back']}" />
+    <xacro:calculate_legwheel_origin angle="${pi}" />
   </xacro:roamr_legwheel>
   
   <link name="${ns}_base_footprint" />

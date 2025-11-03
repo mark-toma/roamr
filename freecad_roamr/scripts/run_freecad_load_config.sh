@@ -3,7 +3,7 @@
 FREECAD_CMD="freecad"
 FREECAD_ROAMR_PATH="$(dirname $0)/../"
 FREECAD_FILE="cad/roamr_dims.FCStd"
-YAML_FILE="geo.yaml"
+YAML_FILE="config/roamr_geometry.yaml"
 
 cd $FREECAD_ROAMR_PATH
 

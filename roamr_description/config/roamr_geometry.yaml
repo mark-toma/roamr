@@ -2,11 +2,7 @@
 # - Length: meters (1 mm)
 # - Angle: radians (0.002 rad, approx 0.1 deg)
 
-chassis_elevation: 0.085
+caster_height: 0.050
 wheel_radius: 0.035
 leg_length: 0.200
-legwheel_xyz:
-  right: '0.058 -0.100 0.0'
-  left: '0.058 0.100 0.0'
-  back: '-0.115 0.0 0.0'
-  
+chassis_side_length: 0.200
