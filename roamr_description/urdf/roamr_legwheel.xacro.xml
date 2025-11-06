@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     
     <xacro:macro name="roamr_legwheel" params="zc rw ll parent prefix suffix *placement">
-        <!-- Links: leg, caster, wheel *_link_suffix -->
+        <!-- Links: leg, caster, wheel prefix_*_link_suffix -->
         <link name="${prefix}_leg_link_${suffix}">
             <visual>
                 <geometry>
@@ -27,7 +27,7 @@
 
         <link name="${prefix}_wheel_footprint_${suffix}" />
 
-        <!-- Joints: leg, caster, wheel *_suffix_joint -->
+        <!-- Joints: leg, caster, wheel prefix_*_suffix_joint -->
         <joint name="${prefix}_leg_${suffix}_joint" type="revolute">
             <parent link="${parent}" />
             <child link="${prefix}_leg_link_${suffix}" />
@@ -54,7 +54,6 @@
         <joint name="${prefix}_wheel_footprint_${suffix}_joint" type="fixed">
             <parent link="${prefix}_caster_link_${suffix}" />
             <child link="${prefix}_wheel_footprint_${suffix}" />
-            <axis xyz="0 1 0" />
             <origin rpy="0 0 0" xyz="0 0 -${zc}" />
         </joint>
 

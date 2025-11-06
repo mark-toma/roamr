@@ -7,7 +7,7 @@ Robot description package for ROAMeR including URDF and demo with RViz and joint
 Launch the demo. This will bring up RViz and a joint state publisher GUI to visualize and move the joints of the robot.
 
 ```bash
-ros2 run roamr_description demo.launch.py
+ros2 launch roamr_description demo.launch.py
 ```
 
 See [demo.launch.py](./launch/demo.launch.py) for optional launch arguments if you'd like to disable default behavior.

@@ -44,7 +44,7 @@ def generate_launch_description():
             {
                 'use_sim_time': use_sim_time,
                 'robot_description': ParameterValue(
-                    Command(['xacro ', urdf_file]),
+                    Command(['xacro ', urdf_file]), # Add namespace argument?
                     value_type=str,
                 ),
             }
